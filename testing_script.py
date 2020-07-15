@@ -5,7 +5,7 @@ import os
 import pandas as pd
 import pickle
 
-working_dir = r'/home/vivek/Documents/Python Programs/piezo1/Piezo1_SVM_alpha/JSON_example_file/'
+working_dir = r'/home/vivek/Documents/Python Programs/piezo1/Piezo1_Rg_Overlays/JSON_example_file/'
 
 working_file = 'GB_221_Halo_B2.json'
 
