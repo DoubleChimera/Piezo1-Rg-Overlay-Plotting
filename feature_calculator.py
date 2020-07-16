@@ -15,12 +15,11 @@ def radGyr_tensor(points):
 def radGyr_allFrames(tracks_df):
     """Takes a dataframe with columns 'Frame', 'X', 'Y', 'ID' 'Exp_Name' and returns a list of Rg values
 
-
     Args:
         tracks_df ([pandas dataframe]): [dataframe with ['Frame, 'X', 'Y', 'ID', 'Exp_Name']]
 
     Returns:
-        [List]: [List of Rg values for each trajectory, upto each frame]
+        [List]: [List of Rg values for each trajectory, calculated up to each frame]
     """
     # Get number of tracks
     trackID_list = list(tracks_df.ID.unique())

@@ -105,6 +105,7 @@ def gen_indiv_tracks(minfrm, tracks, txy_pts):
 
 def json_to_pandas(filename, experiment_name, minfrm=200):
     """ Converts a flika JSON output file to a pandas dataframe
+        also
         Converts a list of flika JSON output files to a pandas dataframe
 
     Args:
