@@ -235,14 +235,8 @@ def genJSONstyleDict(track_array, out_name, save_path, saveJSON=False):
         track_length = len(track)
     # --Loop over each localization of the trajectory and
         for localization in track:
-    # ----check if it has NaN in it
-            if np.isnan(np.sum(localization)):
-    # ------if it does skip this row and subtract 1 from the current track length
-                track_length -= 1
-                continue
-            else:
     # ----add each list of [frame, x-coord, y-coord] as an entry in txy_pts
-                txy_pts.append(localization)
+            txy_pts.append(localization)
     # --Get the new length of txy_pts
         txy_pts_newLength = len(txy_pts)
     # --based on the old length and new length of txy_pts, determine the indices where points where were added
@@ -263,6 +257,4 @@ def genJSONstyleDict(track_array, out_name, save_path, saveJSON=False):
     if saveJSON:
         trackDictOutPath = os.path.join(save_path, out_name + ".json")
         json.dump(trackDict, cls=NumpyEncoder, fp=codecs.open(trackDictOutPath, "w", encoding="utf-8"), separators=(",", ":"), indent=4, sort_keys=True)
-        return trackDict
-    else:
-        return trackDict
+    return trackDict
