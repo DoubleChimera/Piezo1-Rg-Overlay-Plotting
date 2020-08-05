@@ -108,11 +108,11 @@ if __name__ == '__main__':
     # Control data locations
 # 1. Control
     data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
-    data1_plot_output_directory = pickled_JSON_files_directory
+    data1_plot_output_directory = data1_pickled_JSON_files_directory
     # yoda1 data locations
 # 2. yoda1
     data2_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
-    data2_plot_output_directory = pickled_JSON_files_directory
+    data2_plot_output_directory = data2_pickled_JSON_files_directory
 # 3. Got more data? Use the same template as above, just rename data2 to data3
 
     # Do you want to automatically save plots in the output directory?
@@ -124,16 +124,30 @@ if __name__ == '__main__':
     show_kernel_mean_plot = True
 
     # Examples of plotting data
-    # test1 is control
-    # test2 is yoda1
+    # 'control' is the control data, but you can name it anything as long as you are consistent
+    # 'yoda1' is the yoda1 data, but you can name it anything as long as you are consistent
+
+    # STEP 1:
     # First load the data. Note: this does NOT plot anything.  It just loads the data into a nice format for plotting
-    test1 = JSONplotter(data1_pickled_JSON_files_directory, data1_plot_output_directory, autoSavePlot)
-    test2 = JSONplotter(data2_pickled_JSON_files_directory, data2_plot_output_directory, autoSavePlot)
+    control = JSONplotter(data1_pickled_JSON_files_directory, data1_plot_output_directory, autoSavePlot)
+    yoda1 = JSONplotter(data2_pickled_JSON_files_directory, data2_plot_output_directory, autoSavePlot)
 
+    # STEP 2:
     # Then choose the plotting operations and add any missing arguments you want to add in.
-    # test1.histogram(autoSavePlot)
-    # test1.kernel_density(show_kernel_mean_plot, autoSavePlot, 'Control_')
+    # Histogram
+    # Function arguments: def histogram(self, autoSavePlot=False):
 
-    # For boxplot we need the categorical labels for each type of condition
-    # exp_labels = ['Control', 'yoda1']
-    # box_plot([test1, test2], exp_labels, autoSavePlot, 'Categorical ')
+    control.histogram()
+    yoda1.histogram()
+
+    # Kernel Density
+    # Function arguments: def kernel_density(self, plotMean=True, autoSavePlot=False, plotTitle='', xRange=[0, 1.0], yRange=[-3, 20]):
+
+    # control.kernel_density(plotTitle='Control_')
+    # yoda1.kernel_density(plotTitle='yoda1_')
+
+    # Boxplots
+    # Function arguments: def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Categorical_'):
+    # NOTE: For boxplot we need the categorical labels for each type of condition
+    # exp_labels = ['Control', 'yoda1', 'yoda1_new', 'yoda1_reimaged']
+    # box_plot([control, yoda1, yoda1_new, yoda1_reimaged], exp_labels, autoSavePlot, 'Categorical ')
