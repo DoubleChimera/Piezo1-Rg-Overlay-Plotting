@@ -31,8 +31,6 @@ stackPosition = 0
 # Pickled Dataframe to input
 pickled_file_name = 'GB_242_Halo_A_Y1_1_G200F.pkl'
 
-GB_242_A1_df = pd.read_pickle(os.path.join(working_dir, pickled_file_name))
-
 # Automatically name and save the plot in the working directory
 autoSavePlot = True
 
@@ -42,6 +40,10 @@ autoSavePlot = True
 #* Processing Code below, shouldn't be any reason to edit
 #* Except for the color bar related values
 #* ------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Import the pickled file as a dataframe
+tempDataFrame = pd.read_pickle(os.path.join(working_dir, pickled_file_name))
+
 
 # Set the precision of float values to 16 decimals
 pd.set_option('display.precision',16)
@@ -58,7 +60,7 @@ imStack.load()
 imStack.seek(stackPosition)
 imDicFrame = imStack.copy()
 
-# ! I don't like this fix.
+# ! I don't like this fix. I think this takes care of the endianess issues
 # Scale the pixels by 256 and convert it to 'RGBA' format
 # imDicScaled = imDicFrame.point(lambda i:i*(1./256)).convert('RGBA')
 enhanced_im = imDicFrame
@@ -70,7 +72,7 @@ enhanced_im = imDicFrame
 img_dic = enhanced_im
 # img_dic = np.flipud(enhanced_im)
 
-Rg_list = list(GB_242_A1_df.Rg.unique())
+Rg_list = list(tempDataFrame.Rg.unique())
 
 # RgDf_input = RgDf_input.astype(float)
 
@@ -96,10 +98,10 @@ imgplot1 = axes.imshow(img_dic, cmap=plt.get_cmap('gray'))
 # print(float(RgDf_input[RgDf_input[0] == '498577'][1]))
 
 # Plot the tracks
-trackID_list = list(GB_242_A1_df.ID.unique())
+trackID_list = list(tempDataFrame.ID.unique())
 for trackID in trackID_list:
     track_Rg = Rg_list[trackID]
-    indivTrack_df = GB_242_A1_df.loc[GB_242_A1_df['ID'] == trackID, ['X', 'Y']]
+    indivTrack_df = tempDataFrame.loc[tempDataFrame['ID'] == trackID, ['X', 'Y']]
     colorValue = scalarMap.to_rgba(track_Rg)
     plt.plot(indivTrack_df.X, indivTrack_df.Y, color=colorValue, linewidth=1)
 
