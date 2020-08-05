@@ -112,11 +112,15 @@ cb = mpl.colorbar.ColorbarBase(cbax, cmap=cm, norm=cNorm, orientation='vertical'
 cb.set_label("Rg Values", rotation=270, labelpad=15, fontsize=14)
 
 # Autoscale the colorbar
-test1 = np.arange(math.floor(Rg_min), math.ceil(Rg_max)+1, 1)
+colorbar_Side = np.arange(math.floor(Rg_min), math.ceil(Rg_max)+1, 1)
 # Manually scale the colorbar
-test1 = np.arange(0, 16, 1)
-print(test1)
-cb.set_ticks(test1)
+# Note: np.arange(0, 16, 1) <-- Start: 0, End (but not including): 16, Step: 1
+# So the above goes from 0 to 15 in steps of 1
+# Ex. [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+colorbar_Side = np.arange(0, 16, 1)
+
+print(colorbar_Side)
+cb.set_ticks(colorbar_Side)
 
 # cb.set_ticks([0, 2, 9])
     # for index, quadrant in enumerate(quad_indexList):
