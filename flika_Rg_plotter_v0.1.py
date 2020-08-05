@@ -3,7 +3,6 @@
 # This script processes those files to produce:
 #    1. Histograms of Rg Values
 #    2. Kernel Density of Rg Values, and Mean Kernel Density
-#    3. Cumulative Distribution of Rg Values, and Mean Cumulative Distribution
 #    4. Box-Plots
 # Really gotta work on this description at some point, but you get the idea.
 
@@ -78,6 +77,7 @@ class JSONplotter:
                 plt.savefig(self.output_dir + f'{plotTitle}HaloTag_Rg_Density' + '.png', bbox_inches='tight')
         plt.show()
 
+
 def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Categorical_'):
     exp_labels = pd.Series(exp_labels)
     assert len(exp_list) == len(exp_labels), "BoxPlot - VALUE_ERROR: Length of experiment list and experiment labels are not equal."
@@ -102,23 +102,33 @@ def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Cate
 # ! This is the part to edit:
 if __name__ == '__main__':
     # General inputs
-    # The directory with the pickled JSON files in it
-    pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
-    plot_output_directory = pickled_JSON_files_directory
-    autoSavePlot = True
+    # The directories with the pickled JSON files in it, make as many as you need.  Here I've made two, one Control the other Yoda1
+    # Control data locations
+    data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
+    data1_plot_output_directory = pickled_JSON_files_directory
+    # yoda1 data locations
+    data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
+    data1_plot_output_directory = pickled_JSON_files_directory
+    # Do you want to automatically save plots in the output directory?
+    # NOTE: since boxplots use more than one data set, the plot will be saved in the FIRST output folder
+    autoSavePlot = False
+
     # Plot specific inputs
-    # Kernel Density
+    # Kernel Density, show mean on plot or not
     show_kernel_mean_plot = True
 
+    # Examples of plotting data
     # test1 is control
     # test2 is yoda1
+    # First load the data
     test1 = JSONplotter(pickled_JSON_files_directory, plot_output_directory, autoSavePlot)
     test2 = JSONplotter(pickled_JSON_files_directory, plot_output_directory, autoSavePlot)
 
+    # Then choose the plotting operations and add any missing arguments you want to add in.
     # test1.histogram(autoSavePlot)
     # test1.kernel_density(show_kernel_mean_plot, autoSavePlot, 'Control_')
 
     # For boxplot we need the categorical labels for each type of condition
-    exp_labels = ['Control', 'yoda1']
-    box_plot([test1, test2], exp_labels, autoSavePlot, 'Categorical ')
+    # exp_labels = ['Control', 'yoda1']
+    # box_plot([test1, test2], exp_labels, autoSavePlot, 'Categorical ')
 
