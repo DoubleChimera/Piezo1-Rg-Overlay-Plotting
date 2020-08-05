@@ -17,7 +17,7 @@ import re
 
 # * START OF USER INPUTS
 # Working directory, where all the files are located
-working_dir = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Track_Stats_July9/yoda1_greyscale_overlays/yoda1_2uM/yoda1_2uM_treated/242_WT_HaloKera_A_Y1_1/'
+working_dir = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Track_Stats_July9/yoda1_greyscale_overlays/yoda1_2uM/yoda1_2uM_treated/242_WT_HaloKera_A_Y1_1'
 
 # Video name for plot title and output plot
 analyzedFileName = 'GB_242_Halo_A_Y1_1_G200F_colored'
@@ -51,7 +51,7 @@ pd.set_option('display.precision',16)
 regex = re.compile(r'\d+')
 
 # Background DIC .tiff image with appropriate slice selected
-bg_DIC_img = working_dir + DIC_tif_name
+bg_DIC_img = os.path.join(working_dir, DIC_tif_name)
 # Load the tiff stack
 imStack = Image.open(bg_DIC_img)
 imStack.load()
