@@ -126,7 +126,7 @@ if __name__ == '__main__':
     # Examples of plotting data
     # test1 is control
     # test2 is yoda1
-    # First load the data
+    # First load the data. Note: this does NOT plot anything.  It just loads the data into a nice format for plotting
     test1 = JSONplotter(data1_pickled_JSON_files_directory, data1_plot_output_directory, autoSavePlot)
     test2 = JSONplotter(data2_pickled_JSON_files_directory, data2_plot_output_directory, autoSavePlot)
 
