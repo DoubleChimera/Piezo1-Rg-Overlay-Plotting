@@ -211,6 +211,16 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 def JSONsplitTracks(txy_pts, tracks, cutoff_length):
+    """ Takes the output of open_tracks as an input
+        open_tracks takes a JSON as an input
+    Args:
+        txy_pts ([list]): [t, x, y points of tracks]
+        tracks ([list]): [track id number]
+        cutoff_length ([int]): [cutoff value to use for tracks]
+
+    Returns:
+        [list]: [an array of the split tracks]
+    """
     split_tracks = []
     for trk_ind, track in enumerate(tracks):
         if len(track) > cutoff_length:
