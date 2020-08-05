@@ -107,8 +107,8 @@ if __name__ == '__main__':
     data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
     data1_plot_output_directory = pickled_JSON_files_directory
     # yoda1 data locations
-    data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
-    data1_plot_output_directory = pickled_JSON_files_directory
+    data2_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
+    data2_plot_output_directory = pickled_JSON_files_directory
     # Do you want to automatically save plots in the output directory?
     # NOTE: since boxplots use more than one data set, the plot will be saved in the FIRST output folder
     autoSavePlot = False
@@ -121,8 +121,8 @@ if __name__ == '__main__':
     # test1 is control
     # test2 is yoda1
     # First load the data
-    test1 = JSONplotter(pickled_JSON_files_directory, plot_output_directory, autoSavePlot)
-    test2 = JSONplotter(pickled_JSON_files_directory, plot_output_directory, autoSavePlot)
+    test1 = JSONplotter(data1_pickled_JSON_files_directory, data1_plot_output_directory, autoSavePlot)
+    test2 = JSONplotter(data2_pickled_JSON_files_directory, data2_plot_output_directory, autoSavePlot)
 
     # Then choose the plotting operations and add any missing arguments you want to add in.
     # test1.histogram(autoSavePlot)
@@ -131,4 +131,3 @@ if __name__ == '__main__':
     # For boxplot we need the categorical labels for each type of condition
     # exp_labels = ['Control', 'yoda1']
     # box_plot([test1, test2], exp_labels, autoSavePlot, 'Categorical ')
-
