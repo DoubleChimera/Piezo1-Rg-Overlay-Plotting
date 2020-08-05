@@ -3,7 +3,7 @@
 # This script processes those files to produce:
 #    1. Histograms of Rg Values
 #    2. Kernel Density of Rg Values, and Mean Kernel Density
-#    4. Box-Plots
+#    3. Box-Plots
 # Really gotta work on this description at some point, but you get the idea.
 
 import os
@@ -102,15 +102,21 @@ def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Cate
 # ! This is the part to edit:
 if __name__ == '__main__':
     # General inputs
-    # The directories with the pickled JSON files in it, make as many as you need.  Here I've made two, one Control the other Yoda1
+    # The directories with the pickled JSON files in it.
+    #       --Make as many as you need.
+    #       --Here I've made two, one Control the other Yoda1
     # Control data locations
+# 1. Control
     data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
     data1_plot_output_directory = pickled_JSON_files_directory
     # yoda1 data locations
+# 2. yoda1
     data2_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
     data2_plot_output_directory = pickled_JSON_files_directory
+# 3. Got more data? Use the same template as above, just rename data2 to data3
+
     # Do you want to automatically save plots in the output directory?
-    # NOTE: since boxplots use more than one data set, the plot will be saved in the FIRST output folder
+    # NOTE: since boxplots use more than one data set, the plot will be saved in the FIRST output folder (data1)
     autoSavePlot = False
 
     # Plot specific inputs
