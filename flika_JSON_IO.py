@@ -209,3 +209,60 @@ class NumpyEncoder(json.JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
+
+def JSONsplitTracks(txy_pts, tracks, cutoff_length):
+    split_tracks = []
+    for trk_ind, track in enumerate(tracks):
+        if len(track) > cutoff_length:
+            pts =  txy_pts[track, :]
+            number_pieces = math.floor(float(len(track))/float(cutoff_length))
+            for numb_value in list(range(1, number_pieces + 1)):
+                if numb_value == 1:
+                    split_tracks.append(pts[:cutoff_length])
+                else:
+                    split_tracks.append(pts[(((numb_value - 1) * cutoff_length) + 1): (numb_value * cutoff_length)])
+    return split_tracks
+
+def genJSONstyleDict(track_array, out_name, save_path, saveJSON=False):
+    # Initiate the empty lists for tracks and txy_pts
+    tracks = []
+    txy_pts = []
+    # Loop over each track in track_array
+    for track in track_array:
+    # --Get the current length of txy_pts
+        txy_pts_length = len(txy_pts)
+    # --Get the length of the current track
+        track_length = len(track)
+    # --Loop over each localization of the trajectory and
+        for localization in track:
+    # ----check if it has NaN in it
+            if np.isnan(np.sum(localization)):
+    # ------if it does skip this row and subtract 1 from the current track length
+                track_length -= 1
+                continue
+            else:
+    # ----add each list of [frame, x-coord, y-coord] as an entry in txy_pts
+                txy_pts.append(localization)
+    # --Get the new length of txy_pts
+        txy_pts_newLength = len(txy_pts)
+    # --based on the old length and new length of txy_pts, determine the indices where points where were added
+        if txy_pts_length == 0:
+            first_index = 0
+            last_index = track_length - 1
+        elif txy_pts_length > 0:
+            first_index = txy_pts_length
+            last_index = txy_pts_length + track_length - 1
+    # --Make a list of these indices and add them as an entry in tracks[]
+        track_index_list = list(range(first_index, last_index + 1))
+        tracks.append(track_index_list)
+    # Combine tracks[] and txy_pts[] into a dictionary
+    trackDict = {}
+    trackDict["tracks"] = tracks
+    trackDict["txy_pts"] = txy_pts
+    # output that dictionary as a .json file in utf-8 format
+    if saveJSON:
+        trackDictOutPath = os.path.join(save_path, out_name + ".json")
+        json.dump(trackDict, cls=NumpyEncoder, fp=codecs.open(trackDictOutPath, "w", encoding="utf-8"), separators=(",", ":"), indent=4, sort_keys=True)
+        return trackDict
+    else:
+        return trackDict
