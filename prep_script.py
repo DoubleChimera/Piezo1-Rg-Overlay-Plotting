@@ -5,14 +5,19 @@ import os
 import pandas as pd
 import pickle
 
+
 working_dir = r'/home/vivek/Documents/Python Programs/piezo1/Piezo1_Rg_Overlays/JSON_example_file/'
 
 working_file = 'GB_tracks_threshold5_242_2020_06_23_HaloTag_Kera_A_1_1.json'
 
+# This is just a text label for the dataframe that will be generated
 experiment_name = 'GB_tracks_threshold5_242_2020_06_23_HaloTag_Kera_A_1'
 
+# This is a text label for the output file, it will have an extension added to it.
+# {filename}.pkl
 output_fileName = 'GB_tracks_threshold5_242_2020_06_23_HaloTag_Kera_A_1'
 
+# Minimum number of frames per track
 minfrm = 200
 
 filePath = os.path.join(working_dir, working_file)
@@ -26,7 +31,7 @@ Rg_lastFrame = fcalc.radGyr_lastFrame(GB_242_A1_tracks)
 # Setup the empty column, start it with NaN values
 GB_242_A1_tracks['Rg'] = np.nan
 # Calc Rg for the last frame (whole trajectory)
-# Add it as a new column to the dataframe
+# Add it as a new column to the dataframe, every frame has the same final value in it
 for trackID in np.arange(0, len(Rg_lastFrame), 1):
     GB_242_A1_tracks.loc[GB_242_A1_tracks.ID == trackID, 'Rg'] = Rg_lastFrame[trackID]
 # Output the complete dataframe as a pickled file.

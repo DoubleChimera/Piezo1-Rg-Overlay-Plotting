@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import codecs
+import copy
 import json
 import os.path
 import math
@@ -86,7 +87,7 @@ def gen_indiv_tracks(minfrm, tracks, txy_pts):
             for pts in range(len(lst[track][0:])):
                 lst[track][pts][0] = lst[track][pts][0] - indset
 
-    lstnan = np.copy(lst)
+    lstnan = copy.deepcopy(lst)
 
     # parse through the list and fill in NaNs
     for k in range(0, len(lst)):
@@ -213,6 +214,8 @@ class NumpyEncoder(json.JSONEncoder):
 def JSONsplitTracks(txy_pts, tracks, cutoff_length):
     """ Takes the output of open_tracks as an input
         open_tracks takes a JSON as an input
+        makes as many complete truncated sets of tracks as possible with cutoff_length size
+        remainders are discarded
     Args:
         txy_pts ([list]): [t, x, y points of tracks]
         tracks ([list]): [track id number]
@@ -223,7 +226,7 @@ def JSONsplitTracks(txy_pts, tracks, cutoff_length):
     """
     split_tracks = []
     for trk_ind, track in enumerate(tracks):
-        if len(track) > cutoff_length:
+        if len(track) >= cutoff_length:
             pts =  txy_pts[track, :]
             number_pieces = math.floor(float(len(track))/float(cutoff_length))
             for numb_value in list(range(1, number_pieces + 1)):

@@ -99,6 +99,7 @@ def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Cate
         plt.savefig(exp_list[0].output_dir + f'BoxPlot_Rg{outLabel}' + '.png', bbox_inches='tight')
     plt.show()
 
+
 # ! This is the part to edit:
 if __name__ == '__main__':
     # General inputs
@@ -137,8 +138,8 @@ if __name__ == '__main__':
     # Histogram
     # Function arguments: def histogram(self, autoSavePlot=False):
 
-    control.histogram()
-    yoda1.histogram()
+    # control.kernel_density()
+    # yoda1.histogram()
 
     # Kernel Density
     # Function arguments: def kernel_density(self, plotMean=True, autoSavePlot=False, plotTitle='', xRange=[0, 1.0], yRange=[-3, 20]):
@@ -149,5 +150,5 @@ if __name__ == '__main__':
     # Boxplots
     # Function arguments: def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Categorical_'):
     # NOTE: For boxplot we need the categorical labels for each type of condition
-    # exp_labels = ['Control', 'yoda1', 'yoda1_new', 'yoda1_reimaged']
-    # box_plot([control, yoda1, yoda1_new, yoda1_reimaged], exp_labels, autoSavePlot, 'Categorical ')
+    exp_labels = ['Control', 'yoda1']
+    box_plot([control, yoda1], exp_labels, autoSavePlot, 'Categorical ')
