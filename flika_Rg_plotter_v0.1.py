@@ -4,6 +4,7 @@
 #    1. Histograms of Rg Values
 #    2. Kernel Density of Rg Values, and Mean Kernel Density
 #    3. Box-Plots
+#    4. Cumulative Distribution Function
 # Really gotta work on this description at some point, but you get the idea.
 
 import os
