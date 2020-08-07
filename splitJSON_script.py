@@ -19,11 +19,12 @@ def split_Rg_pickle(working_dir, cutoff):
         print(f'Processing Experiment:   {index+1}   out of   {total_files} ...')
         experiment_name = str(file.stem)
         initial_txy_pts, initial_tracks = flikaIO.open_tracks(file)
+        initial_lst, initial_lstnan, initial_trackOrigins = flikaIO.gen_indiv_tracks(cutoff, initial_tracks, initial_txy_pts)
         split_tracks = flikaIO.JSONsplitTracks(initial_txy_pts, initial_tracks, cutoff)
         split_pts = flikaIO.genJSONstyleDict(split_tracks, experiment_name, output_dir)
         txy_pts = np.array(split_pts["txy_pts"])
         tracks = [np.array(track) for track in split_pts["tracks"]]
-        lst, lstnan, trackOrigins = flikaIO.gen_indiv_tracks(cutoff, tracks, txy_pts)
+        lst, lstnan, trackOrigins = flikaIO.gen_indiv_tracks(cutoff - 1, tracks, txy_pts)
         track_array = []
         for trackID, track in enumerate(lstnan):
             track_df = pd.DataFrame(track)
@@ -57,3 +58,5 @@ if __name__ == '__main__':
     # The output directory will be generated in the working directory.
 
     split_Rg_pickle(working_dir, cutoff)
+
+    # Note: there is no return value since this function outputs a compressed file for each JSON

@@ -228,12 +228,12 @@ def JSONsplitTracks(txy_pts, tracks, cutoff_length):
     for trk_ind, track in enumerate(tracks):
         if len(track) >= cutoff_length:
             pts =  txy_pts[track, :]
-            number_pieces = math.floor(float(len(track))/float(cutoff_length))
-            for numb_value in list(range(1, number_pieces + 1)):
+            numberTrackSegments = math.floor(float(len(track))/float(cutoff_length))
+            for numb_value in list(range(1, numberTrackSegments + 1)):
                 if numb_value == 1:
                     split_tracks.append(pts[:cutoff_length])
                 else:
-                    split_tracks.append(pts[(((numb_value - 1) * cutoff_length) + 1): (numb_value * cutoff_length)])
+                    split_tracks.append(pts[((numb_value - 1) * cutoff_length): (numb_value * cutoff_length)])
     return split_tracks
 
 def genJSONstyleDict(track_array, out_name, save_path, saveJSON=False):
