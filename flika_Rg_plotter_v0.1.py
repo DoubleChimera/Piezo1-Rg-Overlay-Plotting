@@ -71,7 +71,6 @@ class JSONplotter:
         plt.title(f'{plotTitle}HaloTag_Rg_Density', fontsize=18)
         plt.xlabel('Radius of Gyration (Rg)', fontsize=16)
         plt.ylabel('Density', fontsize=16)
-
         # plt.tight_layout(rect=[0, 0.03, 1, 0.95], pad=1.0)
         plt.tight_layout()
         if autoSavePlot:
@@ -86,11 +85,11 @@ def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Cate
     for index, eachExp in enumerate(exp_list):
         # Add the label as a column
         exp_length = len(eachExp.Rg_dataframe.loc[(eachExp.Rg_dataframe['Frame'] == 0)])
-        eachExp.Rg_dataframe['Boxplot_Label'] = str(exp_labels[index]) + f'\nTracks: {exp_length}'
+        eachExp.Rg_dataframe['Exp_Category'] = str(exp_labels[index]) + f'\nTracks: {exp_length}'
         cumulative_DF = pd.concat([cumulative_DF, eachExp.Rg_dataframe])
-        # print(len(cumulative_DF.loc[cumulative_DF['Boxplot_Label'] == 'yoda1']))
+        # print(len(cumulative_DF.loc[cumulative_DF['Exp_Category'] == 'yoda1']))
     cumulative_DF = cumulative_DF.loc[(cumulative_DF.Frame == 0)]
-    tempPlot = sns.boxplot(x='Boxplot_Label', y='Rg', data=cumulative_DF)
+    tempPlot = sns.boxplot(x='Exp_Category', y='Rg', data=cumulative_DF)
     tempPlot.set_xlabel('Experimental Categories', fontsize=16)
     tempPlot.set_ylabel('Rg', fontsize=16)
     plt.title(f'{plotTitle}HaloTag_Rg Boxplot', fontsize=18)
@@ -102,6 +101,34 @@ def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Cate
         plt.savefig(exp_list[0].output_dir + f'BoxPlot_Rg{outLabel}' + '.png', bbox_inches='tight')
     plt.show()
 
+def cumulative_distribution(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Categorical_', binWidth=0.1):
+    exp_labels = pd.Series(exp_labels)
+    assert len(exp_list) == len(exp_labels), "Cumul Distrib - VALUE_ERROR: Length of experiment list and experiment labels are not equal."
+    cumulative_DF = pd.DataFrame([])
+    fig, axes = plt.subplots()
+    for index, eachExp in enumerate(exp_list):
+        # Add the label as a column
+        exp_length = len(eachExp.Rg_dataframe.loc[(eachExp.Rg_dataframe['Frame'] == 0)])
+        eachExp.Rg_dataframe['Exp_Category'] = str(exp_labels[index]) + f' Tracks: {exp_length}'
+        mask = (eachExp.Rg_dataframe['Frame'] == 0)
+        trimmed_df = eachExp.Rg_dataframe.loc[mask][['ID', 'Exp_Name', 'Rg', 'Exp_Category']]
+        binValue=np.arange(min(trimmed_df['Rg']), max(trimmed_df['Rg']) + binWidth, binWidth)
+        values, base = np.histogram(trimmed_df['Rg'], bins=binValue)
+        cumulative = np.cumsum(values)
+        normCumulative = cumulative / exp_length
+        plot_label = eachExp.Rg_dataframe['Exp_Category'].iloc[0]
+        axes.plot(base[:-1], normCumulative, label=plot_label)
+    plt.legend(loc='lower right')
+    plt.xlabel('Rg', fontsize=16)
+    plt.ylabel('Percent', fontsize=16)
+    plt.title(f'{plotTitle}HaloTag_Rg CDF', fontsize=18) # CDF stands for cumulative distribution function
+    plt.tight_layout()
+    if autoSavePlot:
+        outLabel = ""
+        for eachLabel in exp_labels:
+            outLabel += " " + str(eachLabel)
+        plt.savefig(exp_list[0].output_dir + f'CumulDistrib_Rg{outLabel}' + '.png', bbox_inches='tight')
+    plt.show()
 
 # ! This is the part to edit:
 if __name__ == '__main__':
@@ -141,7 +168,7 @@ if __name__ == '__main__':
     # Histogram
     # Function arguments: def histogram(self, autoSavePlot=False):
 
-    # control.kernel_density()
+    # control.histogram()
     # yoda1.histogram()
 
     # Kernel Density
@@ -150,8 +177,31 @@ if __name__ == '__main__':
     # control.kernel_density(plotTitle='Control_')
     # yoda1.kernel_density(plotTitle='yoda1_')
 
+    # Cumulative Distribution Function
+    # Function Arguments def cumulative_distribution(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Categorical_', binWidth=0.1):
+    exp_labels = ['Control', 'yoda1']
+    cumulative_distribution([control, yoda1], exp_labels, autoSavePlot, 'Categorical ')
+
     # Boxplots
     # Function arguments: def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Categorical_'):
     # NOTE: For boxplot we need the categorical labels for each type of condition
-    exp_labels = ['Control', 'yoda1']
-    box_plot([control, yoda1], exp_labels, autoSavePlot, 'Categorical ')
+    # exp_labels = ['Control', 'yoda1']
+    # box_plot([control, yoda1], exp_labels, autoSavePlot, 'Categorical ') # Trailing space in plot title is needed
+
+
+
+
+
+    ########### Extra Snippets for Inspiration #############
+    # # 1. Output all Rg values to .csv so you can import to Excel, or other program
+    # # Steps: first print the dataframe of interest to see what columns and rows you actually want, otherwise you will get a TON of data
+    # print(control.Rg_dataframe)
+    # # Looks like all the Rg values are the same for every frame of a trajectory. They were probably calculated for the whole trajectory and inserted into every frame.
+    # # So, we really only want the TrackID, the Exp_Name and the Rg value
+    # # Lets make a mask to define rows we want to limit by a value
+    # mask = (control.Rg_dataframe['Frame'] == 0)
+    # outputDF = control.Rg_dataframe.loc[mask][['ID', 'Exp_Name', 'Rg']]
+    # outputDF.to_csv(os.path.join(data1_plot_output_directory, 'control.csv'), index=False)
+    # # If you want to output each experiment as its own .csv you can use list comprehension combined with a for loop
+    # # The steps would be, first identify all the unique experiment names, then iterate over the dataframe using those as a mask to slice the data you want
+    # # then output a .csv the same as above for each iteration over the loop.
