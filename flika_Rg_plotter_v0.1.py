@@ -84,8 +84,10 @@ def box_plot(exp_list:list, exp_labels:list, autoSavePlot=False, plotTitle='Cate
     cumulative_DF = pd.DataFrame([])
     for index, eachExp in enumerate(exp_list):
         # Add the label as a column
-        eachExp.Rg_dataframe['Boxplot_Label'] = exp_labels[index]
+        exp_length = len(eachExp.Rg_dataframe.loc[(eachExp.Rg_dataframe['Frame'] == 0)])
+        eachExp.Rg_dataframe['Boxplot_Label'] = str(exp_labels[index]) + f'\nTracks: {exp_length}'
         cumulative_DF = pd.concat([cumulative_DF, eachExp.Rg_dataframe])
+        # print(len(cumulative_DF.loc[cumulative_DF['Boxplot_Label'] == 'yoda1']))
     cumulative_DF = cumulative_DF.loc[(cumulative_DF.Frame == 0)]
     tempPlot = sns.boxplot(x='Boxplot_Label', y='Rg', data=cumulative_DF)
     tempPlot.set_xlabel('Experimental Categories', fontsize=16)
@@ -108,11 +110,11 @@ if __name__ == '__main__':
     #       --Here I've made two, one Control the other Yoda1
     # Control data locations
 # 1. Control
-    data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
+    data1_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/200Frame_Split_JSONs/'
     data1_plot_output_directory = data1_pickled_JSON_files_directory
     # yoda1 data locations
 # 2. yoda1
-    data2_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/'
+    data2_pickled_JSON_files_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Testing_Plotter/200Frame_Split_JSONs/'
     data2_plot_output_directory = data2_pickled_JSON_files_directory
 # 3. Got more data? Use the same template as above, just rename data2 to data3
 
