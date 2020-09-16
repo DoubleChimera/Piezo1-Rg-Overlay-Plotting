@@ -8,8 +8,8 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 #################### START USER INPUTS ####################
-working_directory = '/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Track_Intensities_troubleshooting'
-working_file = 'AL_55_2020-06-29-TIRFM_Diff_tdt-MEFs_B_4_trackintensities_v2.json'
+working_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Track_Intensities_troubleshooting'
+working_file = r'AL_55_2020-06-29-TIRFM_Diff_tdt-MEFs_B_4_trackintensities_v2.json'
 frame_cutoff = 200
 ####################
 
