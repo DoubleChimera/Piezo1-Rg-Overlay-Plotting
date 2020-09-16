@@ -53,7 +53,7 @@ def plot_v2(data, minMax=[]):
         data=data, linewidth=5, label=f'Track: {data.TrackID[0]}\nLength: {len(data)}',
         ax=axes[1])
     axes[1].set_xlim([0, 1023])
-    axes[1].set_ylim([0, 1023])
+    axes[1].set_ylim([1023, 0])
     axes[1].set_title('Position in Video')
     return plt.gcf(), axes
 # Loop over the stuff you want to plot
@@ -65,4 +65,7 @@ for trackCount, eachTrackID in enumerate(trackIDList):
     indivTrack = txyi_pts.loc[txyi_pts['TrackID'] == eachTrackID]
     plot_v2(indivTrack, yaxisMinMax)
     plt.suptitle(f'Trajectory {trackCount+1} out of {len(trackIDList)}')
+    plt.subplots_adjust(top=0.85)
+    plt.tight_layout(pad=3.0)
+
     plt.show()
