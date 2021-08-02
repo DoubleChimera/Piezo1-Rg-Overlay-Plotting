@@ -35,6 +35,7 @@ for trackIndex, _ in enumerate(tracks):
 # Adjust Frame values to be Time
 txyi_pts.Frame *= 0.100
 txyi_pts.rename(columns={'Frame': 'Time'}, inplace=True)
+
 # Define the plotting function
 def plot_v2(data, minMax=[]):
     # Make two subplots
@@ -46,6 +47,7 @@ def plot_v2(data, minMax=[]):
         ax=axes[0])
     if minMax != []:
         axes[0].set_ylim(minMax)
+    # The line below sets the xlimits for the time axis, commenting it out makes it autoscale in the x-direction, the y-direction is scaled after getting the intensity for each plot, see lines 66-69 and 73-76
     # axes[0].set_xlim([-5, 65])
     axes[0].set_title('Intensity over Time')
     # Create the trajectory plot to localize the track in the video
@@ -58,6 +60,7 @@ def plot_v2(data, minMax=[]):
     # axes[1].set_ylim([0, 1023])
     axes[1].set_title('Position in Video')
     return plt.gcf(), axes
+
 # Loop over the stuff you want to plot
 trackIDList = txyi_pts.TrackID.unique()
 # The below three lines determine the ymin and ymax for the intensity plot based on ALL trajectories. Since we want it to scale for EACH trajectory, we have to do this differently, so they are commented out
