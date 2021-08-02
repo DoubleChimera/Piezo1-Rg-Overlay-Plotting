@@ -46,7 +46,7 @@ def plot_v2(data, minMax=[]):
         ax=axes[0])
     if minMax != []:
         axes[0].set_ylim(minMax)
-    axes[0].set_xlim([-5, 65])
+    # axes[0].set_xlim([-5, 65])
     axes[0].set_title('Intensity over Time')
     # Create the trajectory plot to localize the track in the video
     g1 = sns.lineplot(
@@ -76,6 +76,6 @@ for trackCount, eachTrackID in enumerate(trackIDList):
     plt.subplots_adjust(top=0.85)
     plt.tight_layout(pad=3.0)
     # The following lines setup the name of the output file as the filename plus the TrackID
-    outfile = Path(output_plot_directory) / f"{filename.stem}_TrackID{eachTrackID}.png"
+    outfile = Path(plot_output_directory) / f"{filename.stem}_TrackID{eachTrackID}.png"
     plt.savefig(outfile, bbox_inches="tight")
     plt.close()
