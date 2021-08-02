@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 #################### START USER INPUTS ####################
 working_directory = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Track_Intensities_troubleshooting'
 working_file = r'AL_55_2020-06-29-TIRFM_Diff_tdt-MEFs_B_4_trackintensities_v2.json'
+plot_output_directory = r'/home/vivek/Tobias_Group/Presentations/2021 AUG 2 Piezo1 Intensity Output Test/'
 frame_cutoff = 200
 ####################
 
@@ -52,20 +53,29 @@ def plot_v2(data, minMax=[]):
         x="X", y="Y",
         data=data, linewidth=5, label=f'Track: {data.TrackID[0]}\nLength: {len(data)}',
         ax=axes[1])
-    axes[1].set_xlim([0, 1023])
-    axes[1].set_ylim([1023, 0])
+    # The below two lines set the limits for the right hand plot (trajectory), commenting them out makes it autoscale
+    # axes[1].set_xlim([0, 1023])
+    # axes[1].set_ylim([0, 1023])
     axes[1].set_title('Position in Video')
     return plt.gcf(), axes
 # Loop over the stuff you want to plot
 trackIDList = txyi_pts.TrackID.unique()
-yMaxVal = int(txyi_pts.Intensity.max()*1.10)
-yMinVal = int(txyi_pts.Intensity.min()*0.90)
-yaxisMinMax = [yMinVal, yMaxVal]
+# The below three lines determine the ymin and ymax for the intensity plot based on ALL trajectories. Since we want it to scale for EACH trajectory, we have to do this differently, so they are commented out
+# yMaxVal = int(txyi_pts.Intensity.max()*1.10)
+# yMinVal = int(txyi_pts.Intensity.min()*0.90)
+# yaxisMinMax = [yMinVal, yMaxVal]
 for trackCount, eachTrackID in enumerate(trackIDList):
+    # Here we select an individual track, so after this we can get the intensity value for it
     indivTrack = txyi_pts.loc[txyi_pts['TrackID'] == eachTrackID]
+    # Here we grab the min max intensity values for a single track and scale it a little to add some padding, you can adjust the padding by changing the number at the end
+    yMaxVal = int(indivTrack.Intensity.max()*1.10) # The last number here is the vertical top padding, which is 10% above the max value as the default 1.10
+    yMinVal = int(indivTrack.Intensity.min()*0.90) # The last number here is the vertical bottom padding, which is 10% below the min value as the default 0.90
+    yaxisMinMax = [yMinVal, yMaxVal]
     plot_v2(indivTrack, yaxisMinMax)
-    plt.suptitle(f'Trajectory {trackCount+1} out of {len(trackIDList)}')
+    plt.suptitle(f'{filename.stem} TrackID: {eachTrackID}')
     plt.subplots_adjust(top=0.85)
     plt.tight_layout(pad=3.0)
-
-    plt.show()
+    # The following lines setup the name of the output file as the filename plus the TrackID
+    outfile = Path(output_plot_directory) / f"{filename.stem}_TrackID{eachTrackID}.png"
+    plt.savefig(outfile, bbox_inches="tight")
+    plt.close()
