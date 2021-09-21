@@ -17,19 +17,19 @@ import re
 
 # * START OF USER INPUTS
 # Working directory, where all the files are located
-working_dir = r'/home/vivek/Tobias_Group/Piezo1/HaloTag_Gabby/Track_Stats_July9/yoda1_greyscale_overlays/yoda1_2uM/yoda1_2uM_treated/242_WT_HaloKera_A_Y1_1'
+working_dir = r'/home/vivek/Tobias_Group/Piezo1/Cell Overlays for Piezo1 Paper1/'
 
 # Video name for plot title and output plot
-analyzedFileName = 'GB_242_Halo_A_Y1_1_G200F_colored'
+analyzedFileName = 'AL_42_2020-02-28-TIRFM_Diff_tdt-mNSPCs_B_21'
 
 # DIC .tiff file name
-DIC_tif_name = '242_2020_06_23_HaloTag_Kera_A+Y1_DIC_MMStack_Pos0.ome.tif'
+DIC_tif_name = 'AL_42_2020-02-28-TIRFM_Diff_tdt-mNSPCs_B_dic_MMStack_Pos0.ome.tif'
 
 # Which image in the DIC .tiff stack, first image is indexed as 0, second is 1, etc.
-stackPosition = 0
+stackPosition = 2
 
 # Pickled Dataframe to input
-pickled_file_name = 'GB_242_Halo_A_Y1_1_G200F.pkl'
+pickled_file_name = 'AL_42_2020-02-28-TIRFM_Diff_tdt-mNSPCs_B_21.pkl'
 
 # Automatically name and save the plot in the working directory
 autoSavePlot = True
