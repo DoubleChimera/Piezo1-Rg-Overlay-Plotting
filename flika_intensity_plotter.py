@@ -32,7 +32,7 @@ for trackIndex, _ in enumerate(tracks):
         indivTrack['Intensity'] = intensity
         indivTrack['TrackID'] = trackIndex
         txyi_pts = pd.concat([txyi_pts, indivTrack])
-# Adjust Frame values to be Time
+# Adjust Frame values to be Time -
 txyi_pts.Frame *= 0.100
 txyi_pts.rename(columns={'Frame': 'Time'}, inplace=True)
 
