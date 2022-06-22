@@ -6,16 +6,16 @@ import pandas as pd
 import pickle
 
 
-working_dir = r'/home/vivek/Documents/Python Programs/piezo1/Piezo1_Rg_Overlays/JSON_example_file/'
+working_dir = r'/home/vivek/Tobias_Group/Piezo1/Cell Overlays for Piezo1 Paper1'
 
-working_file = 'GB_tracks_threshold5_242_2020_06_23_HaloTag_Kera_A_1_1.json'
+working_file = 'AL_42_2020-02-28-TIRFM_Diff_tdt-mNSPCs_B_21.json'
 
 # This is just a text label for the dataframe that will be generated
-experiment_name = 'GB_tracks_threshold5_242_2020_06_23_HaloTag_Kera_A_1'
+experiment_name = 'AL_42_2020-02-28-TIRFM_Diff_tdt-mNSPCs_B_21'
 
 # This is a text label for the output file, it will have an extension added to it.
 # {filename}.pkl
-output_fileName = 'GB_tracks_threshold5_242_2020_06_23_HaloTag_Kera_A_1'
+output_fileName = 'AL_42_2020-02-28-TIRFM_Diff_tdt-mNSPCs_B_21'
 
 # Minimum number of frames per track
 minfrm = 200
