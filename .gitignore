@@ -1,2 +1,4 @@
 /JSON_example_file
 /JSON_example_file/*
+/__pycache__
+/__pycache__/*
